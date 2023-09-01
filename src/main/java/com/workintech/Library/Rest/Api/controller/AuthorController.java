@@ -29,6 +29,14 @@ public class AuthorController {
     public Author findById(@PathVariable int id) {
         return authorService.findById(id);
     }
+    @GetMapping("/books/{id}")
+    public List<Book> getBookList(@PathVariable int id) {
+        Author foundAuthor = authorService.findById(id);
+        if (foundAuthor != null) {
+            return foundAuthor.getBookList();
+        }
+        return null;
+    }
 
     @PostMapping("/")
     public Author save(@RequestBody Author author) {
