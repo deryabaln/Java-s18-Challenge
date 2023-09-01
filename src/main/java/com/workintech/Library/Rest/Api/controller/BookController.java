@@ -42,20 +42,26 @@ public class BookController {
    @PostMapping("/{categoryId}")
     public Book saveByCategoryId(@RequestBody Book book, @PathVariable int categoryId){
         Category category = categoryService.findById(categoryId);
-        category.getBookList().add(book);
-        book.setCategory(category);
-        return bookService.save(book);
+        if(category != null){
+            category.getBookList().add(book);
+            book.setCategory(category);
+            return bookService.save(book);
+        }
+        return null;
     }
 
     @PostMapping("/{categoryId}/{authorId}")
     public Book saveByCategoryAndAuthor(@RequestBody Book book, @PathVariable int categoryId, @PathVariable int authorId ){
         Category category = categoryService.findById(categoryId);
         Author author = authorService.findById(authorId);
-        category.getBookList().add(book);
-        author.getBookList().add(book);
-        book.setCategory(category);
-        book.setAuthor(author);
-        return bookService.save(book);
+        if(category != null && author != null) {
+            category.getBookList().add(book);
+            author.getBookList().add(book);
+            book.setCategory(category);
+            book.setAuthor(author);
+            return bookService.save(book);
+        }
+        return null;
     }
     @PutMapping("/{id}")
     public Book update(@RequestBody Book book, @PathVariable int id) {
